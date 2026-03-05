@@ -1,57 +1,46 @@
-import React, { useEffect } from 'react';
-import ContactForm from '../components/ContactForm';
-import './Contact.css';
+const express = require('express');
+const router = express.Router();
+const nodemailer = require('nodemailer');
 
-export default function Contact() {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-  return (
-    <div className="contact-page">
-      <div className="contact-hero">
-        <div className="container">
-          <h1>Contacto</h1>
-          <p>Estamos para ayudarte. Escribinos o consultá por WhatsApp.</p>
-        </div>
-      </div>
-      <div className="section container">
-        <div className="contact-grid">
-          <div className="contact-info">
-            <h2>Hablemos</h2>
-            <p>Si tenés alguna consulta sobre los chasis, necesitás asesoramiento o querés hacer una reserva, no dudes en contactarnos. Respondemos a la brevedad.</p>
-            <div className="contact-info__items">
-              <a href="mailto:Gonzalovega23@icloud.com" className="contact-info__item">
-                <div className="contact-info__icon">📧</div>
-                <div>
-                  <span>Email</span>
-                  <strong>Gonzalovega23@icloud.com</strong>
-                </div>
-              </a>
-              <a href="https://wa.me/5493462597788" target="_blank" rel="noopener noreferrer" className="contact-info__item">
-                <div className="contact-info__icon">📱</div>
-                <div>
-                  <span>WhatsApp</span>
-                  <strong>+54 9 3462 597788</strong>
-                </div>
-              </a>
-              <div className="contact-info__item">
-                <div className="contact-info__icon">🌐</div>
-                <div>
-                  <span>Web</span>
-                  <strong>ktlkart.com.ar</strong>
-                </div>
-              </div>
-            </div>
-            <a href="https://wa.me/5493462597788?text=Hola! Quiero consultar sobre los chasis KTL Kart." target="_blank" rel="noopener noreferrer" className="btn btn-primary contact-wa-btn">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Abrir WhatsApp
-            </a>
-          </div>
-          <div className="contact-form-wrapper">
-            <ContactForm />
-          </div>
-        </div>
-      </div>
+router.post('/send', async (req, res) => {
+  const { name, email, phone, product, message, type } = req.body;
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'Nombre, email y mensaje son requeridos' });
+  }
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT),
+    secure: process.env.EMAIL_PORT == 465,
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+  });
+  const subject = type === 'reserva' ? `Nueva Reserva - ${product} | KTL Kart` : `Nueva Consulta - ${product || 'General'} | KTL Kart`;
+  const html = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+    <div style="background:#003087;padding:20px;text-align:center;border-radius:8px 8px 0 0;">
+      <h1 style="color:white;margin:0;">KTL KART</h1>
+      <p style="color:#87CEEB;margin:5px 0 0;">${type === 'reserva' ? 'Nueva Reserva' : 'Nueva Consulta'}</p>
     </div>
-  );
-}
+    <div style="background:white;padding:25px;border-radius:0 0 8px 8px;border:1px solid #eee;">
+      <p><strong>Nombre:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Teléfono:</strong> ${phone || 'No indicado'}</p>
+      <p><strong>Producto:</strong> ${product || 'No especificado'}</p>
+      <p><strong>Mensaje:</strong></p>
+      <p style="background:#f5f5f5;padding:15px;border-radius:4px;">${message}</p>
+    </div>
+  </div>`;
+  try {
+    await transporter.sendMail({
+      from: `"KTL Kart Web" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO,
+      replyTo: email,
+      subject,
+      html
+    });
+    res.json({ success: true, message: 'Consulta enviada correctamente' });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.status(500).json({ error: 'Error al enviar el email' });
+  }
+}); 
+
+module.exports = router;
