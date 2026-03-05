@@ -13,11 +13,8 @@
 .navbar__inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .navbar__logo { display: flex; align-items: center; flex-shrink: 0; }
 .navbar__logo img { 
-  height: 44px; 
+  height: 42px; 
   width: auto;
-  max-width: 180px;
-  object-fit: contain;
-  display: block;
 }
 .navbar__links { display: flex; align-items: center; gap: 2px; list-style: none; }
 .navbar__link {
