@@ -1,29 +1,11 @@
-.admin-login {
-  min-height: 100vh;
-  background: var(--black);
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  position: relative; overflow: hidden;
-}
-.admin-login__bg {
-  position: absolute; inset: 0;
-  background-image: url('../assets/FONDO.png');
-  background-repeat: no-repeat; background-position: center right; background-size: 50%;
-  opacity: 0.05; pointer-events: none;
-}
-.admin-login__card {
-  background: var(--dark);
-  border: 1px solid var(--yellow-border);
-  border-radius: 14px; padding: 48px;
-  width: 100%; max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6), var(--shadow-yellow);
-  position: relative; z-index: 1;
-}
-.admin-login__header { text-align: center; margin-bottom: 36px; }
-.admin-login__logo { margin: 0 auto 20px; width: fit-content; }
-.admin-login__logo img { height: 56px; filter: drop-shadow(0 0 12px rgba(240,208,0,0.3)); }
-.admin-login__card h1 { font-size: 28px; font-weight: 900; text-transform: uppercase; color: var(--white); margin-bottom: 8px; }
+.admin-login { min-height: 100vh; background: var(--navy-2); display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; }
+.admin-login::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 40%, rgba(26,127,232,0.07), transparent 70%); pointer-events:none; }
+.admin-login__card { background: var(--navy); border: 1px solid var(--navy-border); border-radius: 14px; padding: 48px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); position: relative; z-index: 1; }
+.admin-login__header { text-align: center; margin-bottom: 32px; }
+.admin-login__header img { height: 56px; margin: 0 auto 20px; }
+.admin-login__card h1 { font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; color: var(--white); margin-bottom: 6px; }
 .admin-login__card p { font-size: 14px; color: var(--gray-600); }
 .admin-login__form { display: flex; flex-direction: column; gap: 16px; }
-.admin-login__submit { width: 100%; justify-content: center; padding: 14px; font-size: 15px; margin-top: 8px; }
-.admin-login__back { text-align: center; margin-top: 20px; font-size: 13px; color: var(--gray-600); }
-.admin-login__back a { color: var(--yellow); }
+.admin-login__submit { width: 100%; justify-content: center; padding: 14px; margin-top: 8px; }
+.admin-login__back { text-align: center; margin-top: 18px; font-size: 13px; color: var(--gray-600); }
+.admin-login__back a { color: var(--blue); }

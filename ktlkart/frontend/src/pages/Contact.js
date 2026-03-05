@@ -20,28 +20,23 @@ export default function Contact() {
     finally { setLoading(false); }
   };
 
-  const INFO = [
-    { icon:'📱', label:'WhatsApp', value:'+54 9 3462 597788', href:'https://wa.me/5493462597788' },
-    { icon:'📧', label:'Email', value:'Gonzalovega23@icloud.com', href:'mailto:Gonzalovega23@icloud.com' },
-    { icon:'📍', label:'Ubicación', value:'Argentina', href: null },
-    { icon:'🕐', label:'Horario', value:'Lun - Sáb · 9:00 a 20:00', href: null },
-  ];
-
   return (
     <div className="contact-page">
       <section className="contact-hero">
-        <div className="contact-hero__bg" />
-        <div className="container contact-hero__inner">
-          <p className="section-label">Hablemos</p>
-          <h1 className="section-title">Ponete en <span>Contacto</span></h1>
-          <p className="section-subtitle">Respondemos consultas sobre precios, modelos y disponibilidad.</p>
+        <div className="contact-hero__inner">
+          <h1>Contacto</h1>
+          <p>Consultanos por precios, modelos y disponibilidad. Respondemos rápido.</p>
         </div>
       </section>
-
       <section className="section">
         <div className="container contact-body">
           <div className="contact-info">
-            {INFO.map((item, i) => (
+            {[
+              { icon:'📱', label:'WhatsApp', value:'+54 9 3462 597788', href:'https://wa.me/5493462597788' },
+              { icon:'📧', label:'Email', value:'Gonzalovega23@icloud.com', href:'mailto:Gonzalovega23@icloud.com' },
+              { icon:'📍', label:'Ubicación', value:'Argentina', href:null },
+              { icon:'🕐', label:'Horario', value:'Lun - Sáb · 9:00 a 20:00', href:null },
+            ].map((item, i) => (
               <div key={i} className="contact-card">
                 <span className="contact-card__icon">{item.icon}</span>
                 <div>
@@ -57,32 +52,22 @@ export default function Contact() {
               <span className="contact-wa__icon">💬</span>
               <div>
                 <h3>¿Preferís WhatsApp?</h3>
-                <p>Mandanos un mensaje directo y te respondemos al toque.</p>
+                <p>Mandanos un mensaje directo y te respondemos rápido.</p>
                 <a href="https://wa.me/5493462597788?text=Hola! Quiero consultar sobre los chasis KTL." target="_blank" rel="noopener noreferrer" className="btn btn-wa">
                   Abrir WhatsApp →
                 </a>
               </div>
             </div>
           </div>
-
           <form className="contact-form" onSubmit={handleSubmit}>
             <h2>Envianos un mensaje</h2>
             <div className="contact-form__grid">
-              <div className="form-group">
-                <label>Nombre *</label>
-                <input value={form.name} onChange={e => set('name', e.target.value)} placeholder="Tu nombre" />
-              </div>
-              <div className="form-group">
-                <label>Email *</label>
-                <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="tu@email.com" />
-              </div>
-              <div className="form-group">
-                <label>Teléfono</label>
-                <input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+54 9 ..." />
-              </div>
+              <div className="form-group"><label>Nombre *</label><input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Tu nombre"/></div>
+              <div className="form-group"><label>Email *</label><input type="email" value={form.email} onChange={e=>set('email',e.target.value)} placeholder="tu@email.com"/></div>
+              <div className="form-group"><label>Teléfono</label><input value={form.phone} onChange={e=>set('phone',e.target.value)} placeholder="+54 9 ..."/></div>
               <div className="form-group">
                 <label>Asunto</label>
-                <select value={form.subject} onChange={e => set('subject', e.target.value)}>
+                <select value={form.subject} onChange={e=>set('subject',e.target.value)}>
                   <option value="">Seleccioná...</option>
                   <option>Consulta Chasis Tierra</option>
                   <option>Consulta Chasis Asfalto</option>
@@ -92,13 +77,8 @@ export default function Contact() {
                 </select>
               </div>
             </div>
-            <div className="form-group">
-              <label>Mensaje *</label>
-              <textarea value={form.message} onChange={e => set('message', e.target.value)} placeholder="Contanos sobre tu consulta..." rows={5} />
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Enviando...' : 'Enviar consulta 🏎️'}
-            </button>
+            <div className="form-group"><label>Mensaje *</label><textarea value={form.message} onChange={e=>set('message',e.target.value)} placeholder="Contanos sobre tu consulta..." rows={5}/></div>
+            <button type="submit" className="btn btn-primary" disabled={loading}>{loading?'Enviando...':'Enviar consulta 🏎️'}</button>
           </form>
         </div>
       </section>
