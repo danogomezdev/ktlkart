@@ -99,7 +99,7 @@ export default function Home() {
               <div className="product-card" key={product.id}>
                 <div className="product-card__image">
                   {product.images?.length > 0 ? (
-                    <img src={`http://localhost:5000${product.images[0]}`} alt={product.name} />
+                    <img src={`https://ktlkart-backend.onrender.com${product.images[0]}`} alt={product.name} />
                   ) : (
                     <div className="product-card__placeholder">
                       <span>{PRODUCT_ICONS[product.category] || '🏎️'}</span>

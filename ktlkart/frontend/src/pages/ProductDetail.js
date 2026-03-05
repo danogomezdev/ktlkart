@@ -48,7 +48,7 @@ export default function ProductDetail() {
           <button className="detail-lightbox__close" onClick={() => setLightbox(null)}>✕</button>
           <button className="detail-lightbox__prev" onClick={e => { e.stopPropagation(); setLightbox(l => (l - 1 + allImages.length) % allImages.length); }}>‹</button>
           <div className="detail-lightbox__content" onClick={e => e.stopPropagation()}>
-            <img src={`http://localhost:5000${allImages[lightbox].url}`} alt="" />
+            <img src={`https://ktlkart-backend.onrender.com${allImages[lightbox].url}`} alt="" />
             {allImages[lightbox].caption && <p>{allImages[lightbox].caption}</p>}
             <span className="detail-lightbox__counter">{lightbox + 1} / {allImages.length}</span>
           </div>
@@ -68,7 +68,7 @@ export default function ProductDetail() {
               <div className="gallery__main" onClick={() => allImages.length > 0 && setLightbox(selectedImg)} style={{cursor: allImages.length > 0 ? 'zoom-in' : 'default'}}>
                 {allImages.length > 0 ? (
                   <>
-                    <img src={`http://localhost:5000${allImages[selectedImg].url}`} alt={product.name} />
+                    <img src={`https://ktlkart-backend.onrender.com${allImages[selectedImg].url}`} alt={product.name} />
                     <div className="gallery__zoom-hint">🔍 Ver en grande</div>
                     {allImages.length > 1 && (
                       <>
@@ -90,7 +90,7 @@ export default function ProductDetail() {
                 <div className="gallery__thumbs">
                   {allImages.map((img, i) => (
                     <button key={i} className={`gallery__thumb${selectedImg === i ? ' active' : ''}`} onClick={() => setSelectedImg(i)}>
-                      <img src={`http://localhost:5000${img.url}`} alt={`${product.name} ${i + 1}`} />
+                      <img src={`https://ktlkart-backend.onrender.com${img.url}`} alt={`${product.name} ${i + 1}`} />
                     </button>
                   ))}
                 </div>

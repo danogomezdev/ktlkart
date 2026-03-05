@@ -205,7 +205,7 @@ export default function AdminDashboard() {
                 <div className="admin__gallery-grid">
                   {filteredGallery.map(img => (
                     <div key={img.id} className="admin__gallery-item">
-                      <img src={`http://localhost:5000${img.url}`} alt={img.caption || ''} />
+                      <img src={`https://ktlkart-backend.onrender.com${img.url}`} alt={img.caption || ''} />
                       <div className="admin__gallery-overlay">
                         <span className="admin__gallery-tag">{img.product}</span>
                         <button onClick={() => handleDeleteGallery(img.id)} className="admin__delete-btn" title="Eliminar">🗑️</button>
@@ -255,7 +255,7 @@ export default function AdminDashboard() {
                     <span className="admin__empty-small">Sin fotos aún</span>
                   ) : product.images.map((img, i) => (
                     <div key={i} className="admin__product-img">
-                      <img src={`http://localhost:5000${img}`} alt={`${product.name} ${i+1}`} />
+                      <img src={`https://ktlkart-backend.onrender.com${img}`} alt={`${product.name} ${i+1}`} />
                       {i === 0 && <span className="admin__img-badge">Principal</span>}
                     </div>
                   ))}

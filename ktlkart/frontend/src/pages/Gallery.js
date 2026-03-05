@@ -47,7 +47,7 @@ export default function Gallery() {
           <div className="gallery-grid">
             {filtered.map((img) => (
               <div key={img.id} className="gallery-item" onClick={() => setLightbox(img)}>
-                <img src={`http://localhost:5000${img.url}`} alt={img.caption || img.product} loading="lazy" />
+                <img src={`https://ktlkart-backend.onrender.com${img.url}`} alt={img.caption || img.product} loading="lazy" />
                 <div className="gallery-item__overlay">
                   <span>{img.product}</span>
                   {img.caption && <p>{img.caption}</p>}
@@ -63,7 +63,7 @@ export default function Gallery() {
         <div className="lightbox" onClick={() => setLightbox(null)}>
           <button className="lightbox__close" onClick={() => setLightbox(null)}>✕</button>
           <div className="lightbox__content" onClick={e => e.stopPropagation()}>
-            <img src={`http://localhost:5000${lightbox.url}`} alt={lightbox.caption} />
+            <img src={`https://ktlkart-backend.onrender.com${lightbox.url}`} alt={lightbox.caption} />
             {lightbox.caption && <p>{lightbox.caption}</p>}
           </div>
         </div>

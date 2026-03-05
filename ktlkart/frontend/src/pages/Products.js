@@ -32,7 +32,7 @@ export default function Products() {
               <div className={`product-row${i % 2 !== 0 ? ' product-row--reverse' : ''}`} key={product.id}>
                 <div className="product-row__visual">
                   {product.images?.length > 0 ? (
-                    <img src={`http://localhost:5000${product.images[0]}`} alt={product.name} />
+                    <img src={`https://ktlkart-backend.onrender.com${product.images[0]}`} alt={product.name} />
                   ) : (
                     <div className="product-row__placeholder">
                       <span>{ICONS[product.category] || '🏎️'}</span>
