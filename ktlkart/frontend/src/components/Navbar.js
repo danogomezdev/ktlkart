@@ -20,7 +20,7 @@ export default function Navbar() {
         <Link to="/"><img src={logo} alt="KTL Racing Kart" className="navbar__logo" /></Link>
         <ul className={`navbar__links${menuOpen ? ' open' : ''}`}>
           <li><Link to="/" className={`navbar__link${a('/') ? ' active' : ''}`}>Inicio</Link></li>
-          <li><Link to="/productos" className={`navbar__link${a('/productos') ? ' active' : ''}`}>Style 2025</Link></li>
+          <li><Link to="/productos" className={`navbar__link${a('/productos') ? ' active' : ''}`}>Productos</Link></li>
           <li><Link to="/galeria" className={`navbar__link${a('/galeria') ? ' active' : ''}`}>Galería</Link></li>
           <li><Link to="/contacto" className={`navbar__link navbar__cta btn btn-primary${a('/contacto') ? ' active' : ''}`}>Contacto</Link></li>
         </ul>
