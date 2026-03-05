@@ -10,11 +10,14 @@
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
-.navbar__inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.navbar__logo { display: flex; align-items: center; flex-shrink: 0; }
+.navbar__inner { display: flex; align-items: center; justify-content: space-between; height: 60px; overflow: hidden; }
+.navbar__logo { display: flex; align-items: center; overflow: hidden; }
 .navbar__logo img { 
-  height: 42px; 
+  height: 26px; 
   width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  object-position: left center;
 }
 .navbar__links { display: flex; align-items: center; gap: 2px; list-style: none; }
 .navbar__link {
