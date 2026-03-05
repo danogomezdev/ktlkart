@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
-import kart1 from '../assets/kart1.jpeg';
-import kart2 from '../assets/kart2.jpeg';
 import './Products.css';
 
 const API_URL = 'https://ktlkart-backend.onrender.com';
