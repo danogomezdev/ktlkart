@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`}>
       <div className="container navbar__inner">
-        <Link to="/"><img src={logo} alt="KTL Racing Kart" className="navbar__logo" style={{height:54}} /></Link>
+        <Link to="/"><img src={logo} alt="KTL Racing Kart" className="navbar__logo" /></Link>
         <ul className={`navbar__links${menuOpen ? ' open' : ''}`}>
           <li><Link to="/" className={`navbar__link${a('/') ? ' active' : ''}`}>Inicio</Link></li>
           <li><Link to="/productos" className={`navbar__link${a('/productos') ? ' active' : ''}`}>Style 2025</Link></li>
