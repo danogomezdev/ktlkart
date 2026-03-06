@@ -1,6 +1,6 @@
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 14px 0;
+  padding: 0;
   background: rgba(11,11,10,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -8,7 +8,6 @@
   transition: all 0.3s ease;
 }
 .navbar.scrolled {
-  padding: 10px 0;
   background: rgba(11,11,10,0.96);
   border-bottom-color: var(--gray-700);
   box-shadow: 0 2px 40px rgba(0,0,0,0.7);
@@ -20,9 +19,16 @@
   height: 2px; background: var(--yellow);
 }
 
-.navbar__inner { display: flex; align-items: center; justify-content: space-between; height: 52px; }
-.navbar__logo { display: flex; align-items: center; overflow: hidden; }
-.navbar__logo img { height: 28px; width: auto; max-width: 140px; object-fit: contain; object-position: left center; }
+.navbar__inner { display: flex; align-items: center; justify-content: space-between; height: 58px; overflow: hidden; }
+.navbar__logo { display: flex; align-items: center; overflow: hidden; max-height: 58px; }
+.navbar__logo img { 
+  height: 34px; 
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
 
 .navbar__links { display: flex; align-items: center; gap: 0; list-style: none; }
 .navbar__link {
