@@ -25,7 +25,6 @@ export default function AdminDashboard() {
   const [serviceForm, setServiceForm] = useState({});
   const [testimonialForm, setTestimonialForm] = useState({});
   const [uploading, setUploading] = useState(false);
-  const imgRef = useRef();
   const avatarRef = useRef();
 
   useEffect(() => { if (isAdmin) loadAll(); }, [isAdmin]);
