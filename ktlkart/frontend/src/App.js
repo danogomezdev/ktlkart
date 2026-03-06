@@ -3,39 +3,37 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
+import { LangProvider } from './context/LangContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 
 import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import Gallery from './pages/Gallery';
+import Projects from './pages/Projects';
+import ProjectDetail from './pages/ProjectDetail';
+import Services from './pages/Services';
 import Contact from './pages/Contact';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 
-function App() {
+export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <div className="App">
+      <LangProvider>
+        <BrowserRouter>
           <Routes>
-            {/* Admin routes - no navbar/footer */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
-
-            {/* Public routes */}
             <Route path="/*" element={
               <>
                 <Navbar />
                 <main>
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/productos" element={<Products />} />
-                    <Route path="/productos/:id" element={<ProductDetail />} />
-                    <Route path="/galeria" element={<Gallery />} />
+                    <Route path="/proyectos" element={<Projects />} />
+                    <Route path="/proyectos/:slug" element={<ProjectDetail />} />
+                    <Route path="/servicios" element={<Services />} />
                     <Route path="/contacto" element={<Contact />} />
                   </Routes>
                 </main>
@@ -44,11 +42,9 @@ function App() {
               </>
             } />
           </Routes>
-          <ToastContainer position="top-right" autoClose={4000} />
-        </div>
-      </BrowserRouter>
+          <ToastContainer position="top-right" autoClose={4000} theme="dark" />
+        </BrowserRouter>
+      </LangProvider>
     </AuthProvider>
   );
 }
-
-export default App;
