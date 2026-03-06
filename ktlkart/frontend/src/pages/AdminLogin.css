@@ -2,9 +2,9 @@
 .admin-login__card { background: var(--gray-900); border: 1px solid var(--gray-800); border-top: 2px solid var(--yellow); padding: 48px; width: 100%; max-width: 420px; box-shadow: var(--shadow-lg); }
 .admin-login__header { text-align: center; margin-bottom: 32px; }
 .admin-login__icon { font-size: 40px; margin-bottom: 16px; }
-.admin-login__card h1 { font-family: var(--font-display); font-size: 48px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); margin-bottom: 6px; }
-.admin-login__card p { font-size: 13px; color: var(--gray-500); font-family: var(--font-mono); letter-spacing: 0.06em; }
+.admin-login__card h1 { font-family: var(--font-heading); font-size: 48px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); margin-bottom: 6px; }
+.admin-login__card p { font-size: 12px; color: var(--gray-500); font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .admin-login__form { display: flex; flex-direction: column; gap: 16px; }
 .admin-login__submit { width: 100%; justify-content: center; padding: 14px; margin-top: 8px; }
-.admin-login__back { text-align: center; margin-top: 18px; font-size: 12px; color: var(--gray-600); }
-.admin-login__back a { color: var(--yellow); font-weight: 600; }
+.admin-login__back { text-align: center; margin-top: 16px; font-size: 12px; color: var(--gray-600); font-family: var(--font-mono); }
+.admin-login__back a { color: var(--yellow); }

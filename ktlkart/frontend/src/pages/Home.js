@@ -1,284 +1,176 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLang } from '../context/LangContext';
 import api from '../utils/api';
+import kart1 from '../assets/kart1.jpeg';
+import kart2 from '../assets/kart2.jpeg';
 import './Home.css';
 
-const TECH = ['React', 'Node.js', 'Express', 'JavaScript', 'CSS3', 'Git', 'REST API', 'JWT'];
+const WA = 'https://wa.me/5493462597788';
+const API_URL = 'https://ktlkart-backend.onrender.com';
+
+// placeholder kart details mientras no hay fotos cargadas en el admin
+const MODELS = [
+  {
+    id: null, cat: 'TIERRA', name: 'KTL TIERRA', slug: null,
+    desc: 'Generamos desarrollos para desembarcar en las exigentes categorías de tierra de nuestro país, donde logramos una competitiva herramienta para pelear las diferentes divisionales.',
+    img: kart1,
+    specs: [{ k: 'Superficie', v: 'Tierra' }, { k: 'Bancadas', v: '3 y 4' }, { k: 'Fabricación', v: 'Nacional' }]
+  },
+  {
+    id: null, cat: 'ASFALTO', name: 'KTL ASFALTO', slug: null,
+    desc: 'Generamos desarrollos para desembarcar en las exigentes categorías de asfalto de nuestro país en donde logramos una competitiva herramienta para pelear las diferentes divisionales.',
+    img: kart2,
+    specs: [{ k: 'Superficie', v: 'Asfalto' }, { k: 'Bancadas', v: '3 y 4' }, { k: 'Fabricación', v: 'Nacional' }]
+  },
+  {
+    id: null, cat: 'ESCUELA', name: 'KTL ESCUELA', slug: null,
+    desc: 'Desarrollamos un chasis ideal para una de las partes más importantes de la carrera deportiva de un piloto: sus comienzos, en donde buscamos un chasis ágil y simple de conducir.',
+    img: kart1,
+    specs: [{ k: 'Superficie', v: 'Mixto' }, { k: 'Bancadas', v: '3' }, { k: 'Fabricación', v: 'Nacional' }]
+  }
+];
 
 export default function Home() {
-  const { t, lang } = useLang();
-  const [projects, setProjects] = useState([]);
-  const [services, setServices] = useState([]);
-  const [settings, setSettings] = useState(null);
-  const [testimonials, setTestimonials] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
 
   useEffect(() => {
-    api.get('/projects?featured=true&status=published').then(r => setProjects(r.data.slice(0,3))).catch(()=>{});
-    api.get('/services').then(r => setServices(r.data.slice(0,3))).catch(()=>{});
-    api.get('/settings').then(r => setSettings(r.data)).catch(()=>{});
-    api.get('/testimonials').then(r => setTestimonials(r.data)).catch(()=>{});
+    window.scrollTo(0, 0);
+    api.get('/products').then(r => setProducts(r.data)).catch(() => {});
+    api.get('/gallery').then(r => setGalleryImages(r.data.slice(0, 8))).catch(() => {});
   }, []);
 
-  const API = process.env.REACT_APP_API_URL?.replace('/api','') || 'http://localhost:5001';
+  // Merge API products with fallback MODELS
+  const models = MODELS.map((m, i) => {
+    const p = products[i];
+    if (p) return {
+      ...m, id: p.id, name: p.name, desc: p.description, slug: p.id,
+      img: p.images?.[0] ? `${API_URL}${p.images[0]}` : m.img,
+      specs: Object.entries(p.specs || {}).slice(0,3).map(([k,v]) => ({k,v}))
+    };
+    return m;
+  });
 
   return (
     <div className="home">
 
-      {/* ── HERO ── */}
+      {/* ── HERO: kart centrado + título abajo, igual al WP ── */}
       <section className="hero">
-        <div className="hero__bg">
-          <div className="hero__grid" />
-          <div className="hero__glow hero__glow--1" />
-          <div className="hero__glow hero__glow--2" />
-          <div className="hero__stripe" />
-          <div className="hero__stripe-2" />
-        </div>
-        <div className="container hero__inner">
-          <div className="hero__content">
-            <div className="hero__badge">
-              <span className="badge badge-green">
-                <span style={{width:8,height:8,borderRadius:'50%',background:'#22c55e',display:'inline-block',animation:'blink 2s infinite'}}/>
-                {t('Disponible para proyectos', 'Available for projects')}
-              </span>
-            </div>
-            <p className="hero__greeting">{t('Hola, soy', 'Hi, I\'m')}</p>
-            <h1 className="hero__name">
-              Daniel<br/>
-              <span className="gold-gradient">Gomez</span>
-            </h1>
-            <div className="hero__role">
-              <span className="hero__role-text">Full Stack Developer</span>
-              <span className="hero__role-dot">·</span>
-              <span className="hero__role-text">React & Node.js</span>
-            </div>
-            <p className="hero__tagline">
-              {t(
-                settings?.tagline || 'Convirtiendo ideas en experiencias digitales que convierten.',
-                settings?.taglineEn || 'Turning ideas into digital experiences that convert.'
-              )}
-            </p>
-            <div className="hero__cta">
-              <Link to="/contacto" className="btn btn-gold">
-                {t('Contratar ahora', 'Hire me now')}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </Link>
-              <Link to="/proyectos" className="btn btn-outline-gold">
-                {t('Ver proyectos', 'View work')}
-              </Link>
-            </div>
-            <div className="hero__stats">
-              <div className="hero__stat">
-                <span className="stat-number">{settings?.projectsDone || '5+'}</span>
-                <span className="stat-label">{t('Proyectos', 'Projects')}</span>
-              </div>
-              <div className="hero__stat-div" />
-              <div className="hero__stat">
-                <span className="stat-number">{settings?.happyClients || '3+'}</span>
-                <span className="stat-label">{t('Clientes', 'Clients')}</span>
-              </div>
-              <div className="hero__stat-div" />
-              <div className="hero__stat">
-                <span className="stat-number">{settings?.yearsExp || '2+'}</span>
-                <span className="stat-label">{t('Años exp.', 'Years exp.')}</span>
-              </div>
-            </div>
+        <div className="hero__bg-logo" />
+        <div className="hero__bg-gradient" />
+        <div className="hero__content">
+          <div className="hero__kart-wrap">
+            <div className="hero__kart-shadow" />
+            <img src={kart1} alt="KTL Racing Kart 2025" className="hero__kart-img" />
           </div>
-          <div className="hero__visual">
-            <div className="hero__avatar-wrap">
-              {settings?.avatar
-                ? <img src={`${API}${settings.avatar}`} alt="Daniel Gomez" className="hero__avatar" />
-                : <div className="hero__avatar-placeholder">
-                    <span>DG</span>
-                  </div>
-              }
-              <div className="hero__avatar-ring" />
-              <div className="hero__avatar-badge">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>
-                Full Stack
-              </div>
-            </div>
-            <div className="hero__code-card">
-              <div className="code-card__dots"><span/><span/><span/></div>
-              <pre className="code-card__code">{`const dev = {
-  name: "danogomezdev",
-  stack: ["React", "Node.js"],
-  available: true,
-  coffee: "☕ always"
-}`}</pre>
-            </div>
+          <div className="hero__divider" />
+          <h1 className="hero__title">
+            KTL Racing Kart
+            <span>Style 2025</span>
+          </h1>
+          <p className="hero__sub">
+            Chasis de karting de alta performance. Diseñados y fabricados en Argentina
+            para Tierra, Asfalto y Escuela. La tecnología que necesitás para ganar.
+          </p>
+          <div className="hero__actions">
+            <Link to="/productos" className="btn btn-primary">Ver Chasis</Link>
+            <a href={`${WA}?text=Hola! Quiero consultar sobre los chasis KTL.`} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a.526.526 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp
+            </a>
           </div>
-        </div>
-        <div className="hero__scroll">
-          <div className="scroll-indicator">
-            <div className="scroll-dot" />
+          <div className="hero__stats">
+            <div className="hero__stat"><span>3</span><p>Modelos</p></div>
+            <div className="hero__stat"><span>100%</span><p>Nacional</p></div>
+            <div className="hero__stat"><span>∞</span><p>Soporte</p></div>
           </div>
         </div>
       </section>
 
-      {/* ── TECH STACK ── */}
-      <section className="tech-strip">
-        <div className="tech-strip__track">
-          {[...TECH, ...TECH].map((t, i) => (
-            <span key={i} className="tech-chip">{t}</span>
+      {/* ── KTL EN DETALLE (dark band like WP) ── */}
+      <div className="detail-band">
+        <div className="container detail-band__inner">
+          <div className="detail-band__line" />
+          <h2 className="detail-band__title">KTL EN DETALLE</h2>
+          <div className="detail-band__line" />
+        </div>
+      </div>
+
+      {/* ── 4-col photo grid ── */}
+      <div className="detail-photos">
+        <div className="detail-photos__grid">
+          {[kart1, kart2, kart1, kart2].map((img, i) => (
+            <div key={i} className="detail-photo">
+              <img src={img} alt={`KTL detalle ${i+1}`} />
+              <div className="detail-photo__overlay" />
+            </div>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* ── ABOUT ── */}
-      <section className="section about">
-        <div className="container about__inner">
-          <div className="about__text">
-            <p className="section-label">{t('Sobre mí', 'About me')}</p>
-            <h2 className="section-title">
-              {t('Desarrollador apasionado por', 'Developer passionate about')}<br/>
-              <span className="gold-gradient">{t('construir soluciones reales', 'building real solutions')}</span>
-            </h2>
-            <div className="gold-line" />
-            <p className="about__bio">
-              {t(
-                settings?.bio || 'Soy desarrollador Full Stack con experiencia en React y Node.js. Me especializo en construir aplicaciones web modernas, rápidas y escalables. Trabajo con clientes de Argentina y el exterior para llevar sus ideas al mundo digital.',
-                settings?.bioEn || "I'm a Full Stack developer experienced in React and Node.js. I specialize in building modern, fast, and scalable web applications. I work with clients from Argentina and abroad to bring their ideas to the digital world."
-              )}
-            </p>
-            <div className="about__skills">
-              {TECH.map(skill => (
-                <span key={skill} className="badge badge-gold">{skill}</span>
-              ))}
+      {/* ── ALTERNATING MODELS (Asfalto / Escuela style from WP) ── */}
+      {models.map((m, i) => (
+        <section className="model-section" key={m.cat}>
+          <div className={`model-section__inner${i % 2 === 1 ? ' reversed' : ''}`}>
+            <div className="model-section__img">
+              <img src={m.img} alt={m.name} />
             </div>
-            <Link to="/contacto" className="btn btn-gold" style={{marginTop:'28px'}}>
-              {t('Trabajemos juntos', "Let's work together")} →
-            </Link>
-          </div>
-          <div className="about__cards">
-            {[
-              { icon: '⚡', title: t('Rápido', 'Fast'), desc: t('Entrega en los tiempos acordados, siempre.', 'Delivery on time, always.') },
-              { icon: '🎨', title: t('Diseño premium', 'Premium design'), desc: t('Interfaces modernas que impresionan a tus clientes.', 'Modern interfaces that impress your clients.') },
-              { icon: '📱', title: t('Responsive', 'Responsive'), desc: t('Perfecto en celular, tablet y desktop.', 'Perfect on mobile, tablet, and desktop.') },
-              { icon: '🔧', title: t('Soporte continuo', 'Ongoing support'), desc: t('Estoy disponible después de la entrega.', 'Available after delivery.') },
-            ].map((card, i) => (
-              <div key={i} className="about__card glass-card">
-                <span className="about__card-icon">{card.icon}</span>
-                <h4>{card.title}</h4>
-                <p>{card.desc}</p>
+            <div className="model-section__body">
+              <div className="model-section__cat">{m.cat}</div>
+              <h2>{m.name}</h2>
+              <p>{m.desc}</p>
+              <div className="model-section__specs">
+                {m.specs.map(s => (
+                  <div key={s.k} className="model-spec">
+                    <span>{s.k}</span><strong>{s.v}</strong>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES PREVIEW ── */}
-      <section className="section services-preview">
-        <div className="services-preview__bg" />
-        <div className="container">
-          <div className="services-preview__header">
-            <div>
-              <p className="section-label">{t('Qué hago', 'What I do')}</p>
-              <h2 className="section-title">{t('Servicios', 'Services')}</h2>
-            </div>
-            <Link to="/servicios" className="btn btn-outline-gold">{t('Ver todos', 'View all')} →</Link>
-          </div>
-          <div className="services-grid">
-            {services.map(s => (
-              <div key={s.id} className="service-card glass-card">
-                <div className="service-card__icon">{s.icon}</div>
-                <h3>{lang === 'es' ? s.title : (s.titleEn || s.title)}</h3>
-                <p>{lang === 'es' ? s.description : (s.descriptionEn || s.description)}</p>
-                <div className="service-card__price">
-                  <span>{lang === 'es' ? s.priceLabel : (s.priceLabelEn || s.priceLabel)}</span>
-                </div>
-                <Link to="/servicios" className="service-card__link">
-                  {t('Ver detalles', 'View details')} →
-                </Link>
+              <div className="model-section__actions">
+                {m.slug
+                  ? <Link to={`/productos/${m.slug}`} className="btn btn-primary">Ver detalles</Link>
+                  : <Link to="/productos" className="btn btn-primary">Ver detalles</Link>
+                }
+                <a href={`${WA}?text=Hola! Me interesa el ${m.name}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline">WhatsApp</a>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PROJECTS PREVIEW ── */}
-      <section className="section projects-preview">
-        <div className="container">
-          <div className="services-preview__header">
-            <div>
-              <p className="section-label">{t('Mi trabajo', 'My work')}</p>
-              <h2 className="section-title">{t('Proyectos destacados', 'Featured projects')}</h2>
-            </div>
-            <Link to="/proyectos" className="btn btn-outline-gold">{t('Ver todos', 'View all')} →</Link>
-          </div>
-          <div className="projects-grid">
-            {projects.map((p, i) => (
-              <Link to={`/proyectos/${p.slug}`} key={p.id} className={`project-card glass-card${i === 0 ? ' featured' : ''}`}>
-                <div className="project-card__img">
-                  {p.images?.[0]
-                    ? <img src={`${API}${p.images[0]}`} alt={p.title} />
-                    : <div className="project-card__placeholder"><span>💻</span></div>
-                  }
-                  <div className="project-card__overlay">
-                    <span>{t('Ver proyecto', 'View project')} →</span>
-                  </div>
-                </div>
-                <div className="project-card__info">
-                  <span className="project-card__cat">{p.category}</span>
-                  <h3>{lang === 'es' ? p.title : (p.titleEn || p.title)}</h3>
-                  <p>{(lang === 'es' ? p.description : (p.descriptionEn || p.description))?.slice(0,120)}...</p>
-                  <div className="project-card__tech">
-                    {p.tech?.slice(0,4).map(t => <span key={t} className="badge badge-gold">{t}</span>)}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      {testimonials.length > 0 && (
-        <section className="section testimonials">
-          <div className="testimonials__bg" />
-          <div className="container">
-            <p className="section-label" style={{justifyContent:'center'}}>{t('Testimonios', 'Testimonials')}</p>
-            <h2 className="section-title" style={{textAlign:'center',marginBottom:'56px'}}>
-              {t('Lo que dicen mis clientes', 'What my clients say')}
-            </h2>
-            <div className="testimonials-grid">
-              {testimonials.map(tm => (
-                <div key={tm.id} className="testimonial-card glass-card">
-                  <div className="testimonial-card__stars">{'⭐'.repeat(tm.rating || 5)}</div>
-                  <p>"{lang === 'es' ? tm.text : (tm.textEn || tm.text)}"</p>
-                  <div className="testimonial-card__author">
-                    <div className="testimonial-card__avatar">{tm.name?.[0]}</div>
-                    <div>
-                      <strong>{tm.name}</strong>
-                      <span>{tm.role} · {tm.company}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
-      )}
+      ))}
+
+      {/* ── KTL EN PISTA (gallery strip like WP) ── */}
+      <section className="pista-section">
+        <div className="pista-band">
+          <div className="container">
+            <h2>KTL EN PISTA</h2>
+          </div>
+        </div>
+        <div className="pista-grid">
+          {galleryImages.length > 0
+            ? galleryImages.slice(0,4).map((img, i) => (
+                <div key={i} className="pista-photo">
+                  <img src={`${API_URL}${img.url}`} alt={img.title || 'KTL en pista'} />
+                </div>
+              ))
+            : [kart2, kart1, kart2, kart1].map((img, i) => (
+                <div key={i} className="pista-photo">
+                  <img src={img} alt={`KTL en pista ${i+1}`} />
+                </div>
+              ))
+          }
+        </div>
+      </section>
 
       {/* ── CTA ── */}
       <section className="section cta-section">
-        <div className="cta-section__glow" />
-        <div className="container cta-section__inner">
-          <p className="section-label" style={{justifyContent:'center'}}>{t('¿Listo para empezar?', 'Ready to start?')}</p>
-          <h2 className="section-title" style={{textAlign:'center'}}>
-            {t('Hablemos de tu', "Let's talk about your")}<br/>
-            <span className="gold-gradient">{t('próximo proyecto', 'next project')}</span>
-          </h2>
-          <p className="cta-section__sub">
-            {t('Escribime hoy y recibí una cotización sin compromiso en menos de 24hs.', "Contact me today and receive a free quote in less than 24 hours.")}
-          </p>
-          <div className="cta-section__btns">
-            <Link to="/contacto" className="btn btn-gold" style={{padding:'16px 40px',fontSize:'15px'}}>
-              {t('Empezar proyecto', 'Start a project')} 🚀
-            </Link>
-            <a href="https://wa.me/5493462688065" target="_blank" rel="noopener noreferrer" className="btn btn-dark" style={{padding:'16px 40px',fontSize:'15px'}}>
-              WhatsApp →
-            </a>
+        <div className="container">
+          <div className="cta-box">
+            <h2>¿Listo para correr?</h2>
+            <p>Consultanos por el modelo que más se adapta a tus necesidades. Respondemos rápido.</p>
+            <div className="cta-box__actions">
+              <Link to="/contacto" className="btn btn-primary">Hacer una consulta</Link>
+              <a href={WA} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Escribir por WhatsApp</a>
+            </div>
           </div>
         </div>
       </section>

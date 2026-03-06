@@ -1,22 +1,25 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5001/api',
-  timeout: 15000,
+  baseURL: process.env.REACT_APP_API_URL || 'https://ktlkart-backend.onrender.com/api',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('portfolio_token');
+  const token = localStorage.getItem('ktl_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
 api.interceptors.response.use(
-  res => res,
-  err => {
+  (res) => res,
+  (err) => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('portfolio_token');
-      localStorage.removeItem('portfolio_user');
+      localStorage.removeItem('ktl_token');
+      localStorage.removeItem('ktl_user');
     }
     return Promise.reject(err);
   }

@@ -1,62 +1,8 @@
-.contact-form { display: flex; flex-direction: column; gap: 20px; }
-
-.contact-form__type { display: flex; gap: 12px; }
-.type-btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: 8px;
-  border: 2px solid var(--gray-200);
-  background: white;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--gray-600);
-  transition: var(--transition);
+.contact-form-widget {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-top: 2px solid var(--yellow);
+  padding: 28px; display: flex; flex-direction: column; gap: 14px;
 }
-.type-btn.active {
-  border-color: var(--blue-primary);
-  background: var(--blue-primary);
-  color: white;
-}
-.type-btn:hover:not(.active) { border-color: var(--blue-primary); color: var(--blue-primary); }
-
-.contact-form__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gray-800);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 12px 16px;
-  border: 2px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: var(--font-body);
-  color: var(--gray-800);
-  background: white;
-  transition: var(--transition);
-  outline: none;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--blue-primary);
-  box-shadow: 0 0 0 3px rgba(0,48,135,0.08);
-}
-.form-group textarea { resize: vertical; min-height: 120px; }
-
-.contact-form__submit { width: 100%; justify-content: center; font-size: 16px; padding: 16px; }
-.contact-form__submit:disabled { opacity: 0.7; cursor: not-allowed; }
-
-@media (max-width: 600px) {
-  .contact-form__row { grid-template-columns: 1fr; }
-}
+.contact-form-widget h3 { font-family: var(--font-heading); font-size: 28px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; }
+.contact-form-widget .btn { width: 100%; justify-content: center; }

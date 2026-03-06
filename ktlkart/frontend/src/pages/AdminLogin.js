@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
+import logo from '../assets/LOGO.png';
 import './AdminLogin.css';
 
 export default function AdminLogin() {
@@ -14,39 +15,25 @@ export default function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await login(username, password);
-      navigate('/admin');
-    } catch {
-      toast.error('Credenciales incorrectas');
-    } finally { setLoading(false); }
+    try { await login(username, password); navigate('/admin'); }
+    catch { toast.error('Credenciales incorrectas'); }
+    finally { setLoading(false); }
   };
 
   return (
     <div className="admin-login">
-      <div className="admin-login__bg">
-        <div className="admin-login__grid" />
-        <div className="admin-login__glow" />
-      </div>
-      <div className="admin-login__box">
-        <div className="admin-login__logo">
-          <span>&lt;</span>dano<span className="gold">gomezdev</span><span> /&gt;</span>
+      <div className="admin-login__card">
+        <div className="admin-login__header">
+          <img src={logo} alt="KTL Racing Kart"/>
+          <h1>Panel Admin</h1>
+          <p>Ingresá con tus credenciales</p>
         </div>
-        <h1>Admin Panel</h1>
-        <p>Iniciá sesión para gestionar tu portfolio</p>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Usuario</label>
-            <input value={username} onChange={e => setUsername(e.target.value)} placeholder="admin" autoFocus />
-          </div>
-          <div className="form-group" style={{marginTop:16}}>
-            <label>Contraseña</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
-          </div>
-          <button type="submit" className="btn btn-gold" disabled={loading} style={{width:'100%',justifyContent:'center',padding:'14px',marginTop:24}}>
-            {loading ? 'Entrando...' : 'Ingresar →'}
-          </button>
+        <form className="admin-login__form" onSubmit={handleSubmit}>
+          <div className="form-group"><label>Usuario</label><input value={username} onChange={e=>setUsername(e.target.value)} placeholder="admin" autoFocus/></div>
+          <div className="form-group"><label>Contraseña</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••"/></div>
+          <button type="submit" className="btn btn-primary admin-login__submit" disabled={loading}>{loading?'Ingresando...':'Ingresar →'}</button>
         </form>
+        <div className="admin-login__back"><Link to="/">← Volver al sitio</Link></div>
       </div>
     </div>
   );

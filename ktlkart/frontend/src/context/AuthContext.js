@@ -8,26 +8,38 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('portfolio_token');
-    const savedUser = localStorage.getItem('portfolio_user');
+    const token = localStorage.getItem('ktl_token');
+    const savedUser = localStorage.getItem('ktl_user');
     if (token && savedUser) {
       setUser(JSON.parse(savedUser));
-      api.get('/auth/verify').catch(() => { localStorage.removeItem('portfolio_token'); localStorage.removeItem('portfolio_user'); setUser(null); });
+      api.get('/auth/verify').catch(() => {
+        localStorage.removeItem('ktl_token');
+        localStorage.removeItem('ktl_user');
+        setUser(null);
+      });
     }
     setLoading(false);
   }, []);
 
   const login = async (username, password) => {
     const { data } = await api.post('/auth/login', { username, password });
-    localStorage.setItem('portfolio_token', data.token);
-    localStorage.setItem('portfolio_user', JSON.stringify({ username: data.username }));
+    localStorage.setItem('ktl_token', data.token);
+    localStorage.setItem('ktl_user', JSON.stringify({ username: data.username }));
     setUser({ username: data.username });
     return data;
   };
 
-  const logout = () => { localStorage.removeItem('portfolio_token'); localStorage.removeItem('portfolio_user'); setUser(null); };
+  const logout = () => {
+    localStorage.removeItem('ktl_token');
+    localStorage.removeItem('ktl_user');
+    setUser(null);
+  };
 
-  return <AuthContext.Provider value={{ user, login, logout, loading, isAdmin: !!user }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading, isAdmin: !!user }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export const useAuth = () => useContext(AuthContext);
