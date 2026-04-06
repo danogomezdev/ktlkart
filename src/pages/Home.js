@@ -82,9 +82,6 @@ export default function Home() {
     ? gallery.slice(0, 4)
     : [{ url: kart1 }, { url: kart2 }, { url: kart1 }, { url: kart2 }];
 
-  const pistaPhotos = gallery.length >= 8
-    ? gallery.slice(4, 8)
-    : [{ url: kart2 }, { url: kart1 }, { url: kart2 }, { url: kart1 }];
 
   return (
     <div className="home">
