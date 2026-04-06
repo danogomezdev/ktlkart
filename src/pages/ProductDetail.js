@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProduct } from '../utils/api';
+import { getMainUrl, getThumbUrl } from '../utils/imgUtils';
 import kart1 from '../assets/kart1.jpeg';
 import './ProductDetail.css';
 
 const WA = 'https://wa.me/5493462597788';
 
-// Precarga una imagen en background
-const preloadImage = (src) => {
-  const img = new Image();
-  img.src = src;
-};
+const preloadImage = (src) => { const img = new Image(); img.src = src; };
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -26,9 +23,9 @@ export default function ProductDetail() {
       .then(d => {
         setProduct(d);
         setLoading(false);
-        // Precargar todas las fotos en background apenas carga el producto
+        // Precargar las primeras 6 imágenes (las que ve primero)
         if (d?.images?.length) {
-          d.images.forEach(src => preloadImage(src));
+          d.images.slice(0, 6).forEach(src => preloadImage(getMainUrl(src)));
         }
       })
       .catch(() => setLoading(false));
@@ -47,8 +44,6 @@ export default function ProductDetail() {
 
   return (
     <div className="product-detail">
-
-      {/* HERO */}
       <div className="product-detail__hero">
         <div className="container">
           <Link to="/productos" className="product-detail__back">← Volver a Chasis</Link>
@@ -58,15 +53,14 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* BODY */}
       <div className="container">
         <div className="product-detail__body">
 
-          {/* GALERÍA */}
           <div className="product-detail__gallery">
             <div className={`gallery-main${imgLoading ? ' loading' : ''}`}>
+              {/* Imagen principal — ancho máximo 1200px */}
               <img
-                src={imgs[activeImg]}
+                src={getMainUrl(imgs[activeImg])}
                 alt={`${product.name} - foto ${activeImg + 1}`}
                 onLoad={() => setImgLoading(false)}
               />
@@ -80,14 +74,14 @@ export default function ProductDetail() {
                     className={`gallery-thumb${activeImg === i ? ' active' : ''}`}
                     onClick={() => handleThumbClick(i)}
                   >
-                    <img src={img} alt={`${product.name} ${i + 1}`} loading="lazy" />
+                    {/* Thumbs — 200px, muy livianos */}
+                    <img src={getThumbUrl(img)} alt={`${product.name} ${i + 1}`} loading="lazy" />
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* INFO */}
           <div className="product-detail__info">
             <p className="product-detail__desc">{product.description}</p>
 
@@ -96,8 +90,7 @@ export default function ProductDetail() {
                 <h3>Especificaciones</h3>
                 {Object.entries(product.specs).map(([k, v]) => (
                   <div key={k} className="detail-spec">
-                    <span>{k}</span>
-                    <strong>{v}</strong>
+                    <span>{k}</span><strong>{v}</strong>
                   </div>
                 ))}
               </div>
@@ -106,9 +99,7 @@ export default function ProductDetail() {
             {product.features?.length > 0 && (
               <div className="product-detail__features">
                 <h3>Características</h3>
-                <ul>
-                  {product.features.map((f, i) => <li key={i}>{f}</li>)}
-                </ul>
+                <ul>{product.features.map((f, i) => <li key={i}>{f}</li>)}</ul>
               </div>
             )}
 

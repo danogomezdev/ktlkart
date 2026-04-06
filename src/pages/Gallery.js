@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGallery } from '../utils/api';
+import { getGalleryUrl, getMainUrl } from '../utils/imgUtils';
 import './Gallery.css';
 
 const FILTERS = ['todos', 'general', 'tierra', 'asfalto', 'escuela'];
@@ -22,7 +23,6 @@ export default function Gallery() {
   }, []);
 
   const filtered = filter === 'todos' ? images : images.filter(i => i.product === filter);
-
   const prev = () => setLightbox(l => { const i = filtered.findIndex(x => x.id === l.id); return filtered[(i - 1 + filtered.length) % filtered.length]; });
   const next = () => setLightbox(l => { const i = filtered.findIndex(x => x.id === l.id); return filtered[(i + 1) % filtered.length]; });
 
@@ -45,16 +45,14 @@ export default function Gallery() {
         </div>
 
         {loading && <div className="loading"><div className="spinner" /></div>}
-
-        {!loading && filtered.length === 0 && (
-          <div className="gallery-empty"><p>No hay fotos en esta categoría aún.</p></div>
-        )}
+        {!loading && filtered.length === 0 && <div className="gallery-empty"><p>No hay fotos en esta categoría aún.</p></div>}
 
         {!loading && filtered.length > 0 && (
           <div className="gallery-grid">
             {filtered.map(img => (
               <div key={img.id} className="gallery-item" onClick={() => setLightbox(img)}>
-                <img src={img.url} alt={img.caption || 'KTL Racing Kart'} loading="lazy" />
+                {/* Galería — 800px es suficiente para la grilla */}
+                <img src={getGalleryUrl(img.url)} alt={img.caption || 'KTL Racing Kart'} loading="lazy" />
                 <div className="gallery-item__overlay">
                   <span className="gallery-item__cat">{img.product}</span>
                 </div>
@@ -68,7 +66,8 @@ export default function Gallery() {
         <div className="gallery-lightbox" onClick={() => setLightbox(null)}>
           <button className="gallery-lightbox__close" onClick={() => setLightbox(null)}>✕</button>
           <button className="gallery-lightbox__prev" onClick={e => { e.stopPropagation(); prev(); }}>‹</button>
-          <img src={lightbox.url} alt={lightbox.caption || ''} className="gallery-lightbox__img" onClick={e => e.stopPropagation()} />
+          {/* Lightbox — imagen completa */}
+          <img src={getMainUrl(lightbox.url)} alt={lightbox.caption || ''} className="gallery-lightbox__img" onClick={e => e.stopPropagation()} />
           <button className="gallery-lightbox__next" onClick={e => { e.stopPropagation(); next(); }}>›</button>
         </div>
       )}
