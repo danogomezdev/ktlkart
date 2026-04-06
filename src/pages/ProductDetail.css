@@ -146,3 +146,14 @@
   .product-detail__gallery { position: static; }
   .gallery-thumbs { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
 }
+
+/* Loading state en imagen principal */
+.gallery-main { position: relative; }
+.gallery-main.loading img { opacity: 0.3; transition: opacity 0.2s; }
+.gallery-main img { transition: opacity 0.3s; }
+.gallery-main__spinner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.3);
+  border-radius: var(--radius);
+}
