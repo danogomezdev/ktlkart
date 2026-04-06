@@ -26,7 +26,7 @@ export default function AdminDashboard() {
   const [editForm, setEditForm] = useState(null);
   const [productFileRef] = useState(React.createRef());
   const [productPhotoTarget, setProductPhotoTarget] = useState(null);
-  const [uploadingProduct, setUploadingProduct] = useState(false);
+  const [uploadingProductId, setUploadingProductId] = useState(null);
 
   // Contacts state
   const [contacts, setContacts] = useState([]);
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
   const handleProductPhoto = async (e) => {
     const files = Array.from(e.target.files);
     if (!files.length || !productPhotoTarget) return;
-    setUploadingProduct(true);
+    setUploadingProductId(productPhotoTarget);
     try {
       const newUrls = [];
       for (const file of files) {
@@ -109,7 +109,7 @@ export default function AdminDashboard() {
       loadProducts();
       toast.success('Fotos del producto actualizadas!');
     } catch { toast.error('Error al subir foto'); }
-    finally { setUploadingProduct(false); if (productFileRef.current) productFileRef.current.value = ''; }
+    finally { setUploadingProductId(null); if (productFileRef.current) productFileRef.current.value = ''; }
   };
 
   // ── EDIT PRODUCT ──
@@ -253,7 +253,7 @@ export default function AdminDashboard() {
                   <div className="admin__product-actions">
                     <button className="btn btn-outline" style={{fontSize:'13px'}}
                       onClick={() => { setProductPhotoTarget(product.id); setTimeout(() => productFileRef.current?.click(), 100); }}>
-                      {uploadingProduct ? '⏳ Subiendo...' : '📷 Agregar fotos'}
+                      {uploadingProductId === product.id ? '⏳ Subiendo...' : '📷 Agregar fotos'}
                     </button>
                     {editingId === product.id
                       ? <button className="btn btn-outline" style={{fontSize:'13px'}} onClick={cancelEdit}>✕ Cancelar</button>
