@@ -157,3 +157,16 @@
   background: rgba(0,0,0,0.3);
   border-radius: var(--radius);
 }
+
+/* Glass overrides */
+.product-detail__hero { background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); }
+.detail-spec {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border) !important;
+  border-left: 2px solid var(--yellow-border) !important;
+}
+.product-detail__info .btn-outline {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+}

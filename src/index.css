@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ══════════════════════════════════════════════════
-   KTL RACING KART — Design System
-   Concepto: Pista de noche. Negro, grises, amarillo racing.
-   ══════════════════════════════════════════════════ */
 :root {
   --black:         #0b0b0a;
-  --near-black:    #111110;
+  --near-black:    #0f0f0e;
   --gray-900:      #1a1a18;
   --gray-800:      #242422;
   --gray-700:      #323230;
@@ -23,10 +19,19 @@
   --yellow-border: rgba(245,200,0,0.28);
   --yellow-glow:   rgba(245,200,0,0.2);
 
+  /* Glassmorphism tokens */
+  --glass-bg:      rgba(255,255,255,0.06);
+  --glass-bg-2:    rgba(255,255,255,0.04);
+  --glass-border:  rgba(255,255,255,0.10);
+  --glass-border-2:rgba(255,255,255,0.06);
+  --glass-blur:    blur(16px);
+  --glass-blur-lg: blur(28px);
+
   --font-heading:  'Bebas Neue', sans-serif;
   --font-body:     'DM Sans', sans-serif;
   --font-mono:     'JetBrains Mono', monospace;
-  --radius:        6px;
+  --radius:        8px;
+  --radius-lg:     14px;
   --transition:    all 0.22s cubic-bezier(0.4,0,0.2,1);
   --shadow-sm:     0 2px 8px rgba(0,0,0,0.45);
   --shadow-md:     0 6px 28px rgba(0,0,0,0.55);
@@ -43,19 +48,13 @@ body {
   color: var(--white);
   line-height: 1.65;
   overflow-x: hidden;
-  /* Asfalto sutil */
   background-image:
-    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
   background-size: 52px 52px;
 }
 
-h1,h2,h3,h4 {
-  font-family: var(--font-heading);
-  letter-spacing: 0.04em;
-  line-height: 0.94;
-  text-transform: uppercase;
-}
+h1,h2,h3,h4 { font-family: var(--font-heading); letter-spacing: 0.04em; line-height: 0.94; text-transform: uppercase; }
 h5,h6 { font-family: var(--font-body); font-weight: 600; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
@@ -65,7 +64,6 @@ button { cursor: pointer; font-family: var(--font-body); }
 ::-webkit-scrollbar-track { background: var(--near-black); }
 ::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
 
-/* ── LAYOUT ── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 .section { padding: 96px 0; }
 
@@ -75,22 +73,25 @@ button { cursor: pointer; font-family: var(--font-body); }
   padding: 12px 26px; border-radius: var(--radius);
   font-family: var(--font-body); font-weight: 600;
   font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
-  border: none; transition: var(--transition); cursor: pointer;
-  white-space: nowrap;
+  border: none; transition: var(--transition); cursor: pointer; white-space: nowrap;
 }
-.btn-primary {
-  background: var(--yellow); color: var(--black);
-}
+.btn-primary { background: var(--yellow); color: var(--black); }
 .btn-primary:hover { background: var(--yellow-2); transform: translateY(-2px); box-shadow: var(--shadow-yellow); }
-.btn-outline {
-  background: transparent; color: var(--white);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-2px); }
+.btn-outline { background: var(--glass-bg); color: var(--white); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); }
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-2px); background: var(--yellow-dim); }
 .btn-dark { background: var(--gray-800); color: var(--white); border: 1px solid var(--gray-700); }
 .btn-dark:hover { background: var(--gray-700); transform: translateY(-2px); }
 .btn-wa { background: #25D366; color: white; }
 .btn-wa:hover { background: #1fb856; transform: translateY(-2px); }
+
+/* ── GLASS CARD utility ── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
 
 /* ── LOADING ── */
 .loading { display: flex; align-items: center; justify-content: center; min-height: 200px; }
@@ -109,12 +110,12 @@ button { cursor: pointer; font-family: var(--font-body); }
 
 /* ── FORMS ── */
 .form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-group label {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.18em; color: var(--gray-400); font-family: var(--font-mono);
-}
+.form-group label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gray-400); font-family: var(--font-mono); }
 .form-group input, .form-group select, .form-group textarea {
-  padding: 13px 16px; background: var(--gray-900); border: 1px solid var(--gray-700);
+  padding: 13px 16px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius); font-size: 14px; font-family: var(--font-body);
   color: var(--white); outline: none; transition: border-color 0.2s;
 }
