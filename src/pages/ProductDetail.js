@@ -14,18 +14,21 @@ export default function ProductDetail() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setActiveImg(0); // reset al cambiar producto
     getProduct(id)
       .then(d => { setProduct(d); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id]);
 
   if (loading) return <div className="loading" style={{minHeight:'100vh'}}><div className="spinner"/></div>;
-  if (!product) return <div className="loading" style={{minHeight:'100vh'}}><p>Producto no encontrado.</p></div>;
+  if (!product) return <div className="loading" style={{minHeight:'100vh', color:'var(--gray-400)'}}><p>Producto no encontrado.</p></div>;
 
   const imgs = product.images?.length ? product.images : [kart1];
 
   return (
     <div className="product-detail">
+
+      {/* HERO */}
       <div className="product-detail__hero">
         <div className="container">
           <Link to="/productos" className="product-detail__back">← Volver a Chasis</Link>
@@ -35,26 +38,33 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      <div className="section container">
-        <div className="product-detail__grid">
-          {/* Galería */}
+      {/* BODY */}
+      <div className="container">
+        <div className="product-detail__body">
+
+          {/* GALERÍA — sticky izquierda */}
           <div className="product-detail__gallery">
             <div className="gallery-main">
-              <img src={imgs[activeImg]} alt={product.name} />
+              <img src={imgs[activeImg]} alt={`${product.name} - foto ${activeImg + 1}`} />
             </div>
             {imgs.length > 1 && (
               <div className="gallery-thumbs">
                 {imgs.map((img, i) => (
-                  <div key={i} className={`gallery-thumb${activeImg === i ? ' active' : ''}`} onClick={() => setActiveImg(i)}>
-                    <img src={img} alt={`${product.name} ${i + 1}`} />
+                  <div
+                    key={i}
+                    className={`gallery-thumb${activeImg === i ? ' active' : ''}`}
+                    onClick={() => setActiveImg(i)}
+                  >
+                    <img src={img} alt={`${product.name} ${i + 1}`} loading="lazy" />
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Info */}
+          {/* INFO — derecha */}
           <div className="product-detail__info">
+
             <p className="product-detail__desc">{product.description}</p>
 
             {product.specs && Object.keys(product.specs).length > 0 && (
@@ -62,7 +72,8 @@ export default function ProductDetail() {
                 <h3>Especificaciones</h3>
                 {Object.entries(product.specs).map(([k, v]) => (
                   <div key={k} className="detail-spec">
-                    <span>{k}</span><strong>{v}</strong>
+                    <span>{k}</span>
+                    <strong>{v}</strong>
                   </div>
                 ))}
               </div>
@@ -77,15 +88,27 @@ export default function ProductDetail() {
               </div>
             )}
 
-            {product.price && <div className="product-detail__price">{product.price}</div>}
+            {product.price && (
+              <div className="product-detail__price">{product.price}</div>
+            )}
 
             <div className="product-detail__actions">
-              <a href={`${WA}?text=Hola! Me interesa el ${product.name}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Consultar por WhatsApp →</a>
-              <Link to="/contacto" className="btn btn-outline">Enviar consulta</Link>
+              <a
+                href={`${WA}?text=Hola! Me interesa el ${product.name}`}
+                target="_blank" rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
+                Consultar por WhatsApp →
+              </a>
+              <Link to="/contacto" className="btn btn-outline">
+                Enviar consulta
+              </Link>
             </div>
+
           </div>
         </div>
       </div>
+
     </div>
   );
 }
