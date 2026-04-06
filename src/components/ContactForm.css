@@ -1,0 +1,8 @@
+.contact-form-widget {
+  background: var(--gray-900);
+  border: 1px solid var(--gray-800);
+  border-top: 2px solid var(--yellow);
+  padding: 28px; display: flex; flex-direction: column; gap: 14px;
+}
+.contact-form-widget h3 { font-family: var(--font-heading); font-size: 28px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; }
+.contact-form-widget .btn { width: 100%; justify-content: center; }

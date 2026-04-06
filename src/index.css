@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ══════════════════════════════════════════════════
+   KTL RACING KART — Design System
+   Concepto: Pista de noche. Negro, grises, amarillo racing.
+   ══════════════════════════════════════════════════ */
+:root {
+  --black:         #0b0b0a;
+  --near-black:    #111110;
+  --gray-900:      #1a1a18;
+  --gray-800:      #242422;
+  --gray-700:      #323230;
+  --gray-600:      #484845;
+  --gray-500:      #606058;
+  --gray-400:      #888880;
+  --gray-300:      #b4b4aa;
+  --gray-200:      #d4d4cc;
+  --white:         #f8f8f4;
+
+  --yellow:        #f5c800;
+  --yellow-2:      #ffd940;
+  --yellow-dim:    rgba(245,200,0,0.10);
+  --yellow-border: rgba(245,200,0,0.28);
+  --yellow-glow:   rgba(245,200,0,0.2);
+
+  --font-heading:  'Bebas Neue', sans-serif;
+  --font-body:     'DM Sans', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --radius:        6px;
+  --transition:    all 0.22s cubic-bezier(0.4,0,0.2,1);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.45);
+  --shadow-md:     0 6px 28px rgba(0,0,0,0.55);
+  --shadow-lg:     0 16px 60px rgba(0,0,0,0.65);
+  --shadow-yellow: 0 6px 32px rgba(245,200,0,0.25);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--black);
+  color: var(--white);
+  line-height: 1.65;
+  overflow-x: hidden;
+  /* Asfalto sutil */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+h1,h2,h3,h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+h5,h6 { font-family: var(--font-body); font-weight: 600; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: var(--font-body); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--near-black); }
+::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
+
+/* ── LAYOUT ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 96px 0; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 26px; border-radius: var(--radius);
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  border: none; transition: var(--transition); cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--yellow); color: var(--black);
+}
+.btn-primary:hover { background: var(--yellow-2); transform: translateY(-2px); box-shadow: var(--shadow-yellow); }
+.btn-outline {
+  background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); transform: translateY(-2px); }
+.btn-dark { background: var(--gray-800); color: var(--white); border: 1px solid var(--gray-700); }
+.btn-dark:hover { background: var(--gray-700); transform: translateY(-2px); }
+.btn-wa { background: #25D366; color: white; }
+.btn-wa:hover { background: #1fb856; transform: translateY(-2px); }
+
+/* ── LOADING ── */
+.loading { display: flex; align-items: center; justify-content: center; min-height: 200px; }
+.spinner { width: 28px; height: 28px; border: 2px solid var(--gray-800); border-top-color: var(--yellow); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── WHATSAPP FLOAT ── */
+.whatsapp-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+  width: 56px; height: 56px; background: #25D366; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: var(--transition);
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float svg { width: 28px; height: 28px; fill: white; }
+
+/* ── FORMS ── */
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.18em; color: var(--gray-400); font-family: var(--font-mono);
+}
+.form-group input, .form-group select, .form-group textarea {
+  padding: 13px 16px; background: var(--gray-900); border: 1px solid var(--gray-700);
+  border-radius: var(--radius); font-size: 14px; font-family: var(--font-body);
+  color: var(--white); outline: none; transition: border-color 0.2s;
+}
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray-500); }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--yellow); box-shadow: 0 0 0 3px var(--yellow-dim);
+}
+.form-group select option { background: var(--gray-900); }
+.form-group textarea { resize: vertical; min-height: 120px; }
+
+@media (max-width: 768px) { .section { padding: 64px 0; } .container { padding: 0 20px; } }
