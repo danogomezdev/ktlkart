@@ -51,7 +51,7 @@
 }
 .hero__title span { color: var(--yellow); }
 .hero__sub { font-size: 15px; color: rgba(255,255,255,0.55); max-width: 420px; line-height: 1.75; font-weight: 300; }
-.hero__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero__actions { display: flex; gap: 12px; flex-wrap: nowrap; justify-content: center; }
 .hero__stats {
   display: flex; gap: 0;
   border: 1px solid rgba(255,255,255,0.08);
