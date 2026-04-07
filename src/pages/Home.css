@@ -34,7 +34,7 @@
 /* ── TEXTO IZQUIERDA ── */
 .hero__content {
   position: relative; z-index: 1;
-  padding: 60px 48px 80px 0;
+  padding: 60px 48px 80px 60px;
   display: flex; flex-direction: column; justify-content: center; gap: 24px;
   text-align: left;
 }
@@ -74,8 +74,7 @@
 .hero__kart-wrap { position: relative; width: 100%; max-width: 580px; }
 .hero__kart-img {
   width: 100%; object-fit: contain;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 48px rgba(245,200,0,0.12)) brightness(1.05);
+  filter: drop-shadow(0 24px 60px rgba(0,0,0,0.8)) drop-shadow(0 0 48px rgba(245,200,0,0.15));
   animation: floatKart 5s ease-in-out infinite;
 }
 @keyframes floatKart { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
