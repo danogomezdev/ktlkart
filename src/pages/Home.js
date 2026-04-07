@@ -67,14 +67,23 @@ export default function Home() {
           <div className="hero__stripe hero__stripe--2" />
         </div>
 
-        {/* Texto izquierda */}
+        {/* Contenido centrado */}
         <div className="hero__content">
           <div className="hero__label">KTL Racing Kart · Fabricación Nacional</div>
-          <h1 className="hero__title">Chasis de<br/><span>Karting</span><br/>Competición</h1>
+
+          {/* Foto del kart */}
+          <div className="hero__kart-wrap">
+            <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
+            <div className="hero__kart-shadow" />
+          </div>
+
+          {/* Botones */}
           <div className="hero__actions">
             <Link to="/productos" className="btn btn-primary">Nuestros Modelos →</Link>
+            <Link to="/galeria" className="btn btn-outline">Ver Galería</Link>
           </div>
-          {/* Stats clickeables que scrollean al modelo */}
+
+          {/* Stats clickeables */}
           <div className="hero__stats">
             {['TIERRA', 'ASFALTO', 'ESCUELA'].map((cat, i) => (
               <button key={cat} className="hero__stat hero__stat--btn" onClick={() => scrollToModel(i)}>
@@ -82,14 +91,6 @@ export default function Home() {
                 <p>{i === 0 ? 'Pistas de tierra' : i === 1 ? 'Pistas de asfalto' : 'Categoría inicial'}</p>
               </button>
             ))}
-          </div>
-        </div>
-
-        {/* Kart derecha */}
-        <div className="hero__visual">
-          <div className="hero__kart-wrap">
-            <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
-            <div className="hero__kart-shadow" />
           </div>
         </div>
       </section>
