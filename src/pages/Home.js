@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { getProducts, getGallery } from '../utils/api';
 import { getGalleryUrl, getMainUrl } from '../utils/imgUtils';
 import kart1 from '../assets/kart1.jpeg';
-import chasis2 from '../assets/chasis2.png';
 import kart2 from '../assets/kart2.jpeg';
+import chasis2 from '../assets/chasis2.png';
 import './Home.css';
 
 const WA = 'https://wa.me/5493462597788';
@@ -81,30 +81,25 @@ export default function Home() {
     ? gallery.slice(0, 4)
     : [{ url: kart1 }, { url: kart2 }, { url: kart1 }, { url: kart2 }];
 
-  // Foto de fondo del hero — primera de galería o fallback
   const heroBgPhoto = gallery.length > 0 ? gallery[0].url : kart2;
 
   return (
     <div className="home">
 
-      {/* ══ HERO — Opción C: foto borrosa de fondo ══ */}
+      {/* ══ HERO — Layout B: texto izq, kart der ══ */}
       <section className="hero">
         <div className="hero__bg">
-          {/* Foto borrosa de fondo */}
           <div className="hero__bg-photo" style={{backgroundImage: `url(${heroBgPhoto})`}} />
           <div className="hero__bg-overlay" />
           <div className="hero__bg-logo" />
-          <div className="hero__bg-gradient" />
           <div className="hero__stripe" />
           <div className="hero__stripe hero__stripe--2" />
         </div>
+
+        {/* TEXTO IZQUIERDA */}
         <div className="hero__content">
           <div className="hero__label">KTL Racing Kart · Fabricación Nacional</div>
-          <div className="hero__kart-wrap">
-            <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
-            <div className="hero__kart-shadow" />
-          </div>
-          <h1 className="hero__title">Chasis de <span>Karting</span><br/>de Competición</h1>
+          <h1 className="hero__title">Chasis de<br/><span>Karting</span><br/>Competición</h1>
           <p className="hero__sub">Fabricados en Argentina. Diseñados para ganar en tierra, asfalto y escuela.</p>
           <div className="hero__actions">
             <Link to="/productos" className="btn btn-primary">Ver Chasis →</Link>
@@ -116,6 +111,14 @@ export default function Home() {
             <AnimatedStat value="∞" isNum={false} label="Soporte" />
           </div>
         </div>
+
+        {/* KART DERECHA */}
+        <div className="hero__visual">
+          <div className="hero__kart-wrap">
+            <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
+            <div className="hero__kart-shadow" />
+          </div>
+        </div>
       </section>
 
       {/* ══ MODELS ══ */}
@@ -124,7 +127,6 @@ export default function Home() {
           <div className="models-section__label">Línea de productos</div>
           <h2 className="models-section__title">Nuestros <span>Chasis</span></h2>
         </div>
-
         {models.map((m, i) => (
           <div key={m.id} className={`model-card${i % 2 !== 0 ? ' model-card--rev' : ''}`}>
             <div className="model-card__num">{m.num}</div>
