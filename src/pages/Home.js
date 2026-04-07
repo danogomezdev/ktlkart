@@ -102,13 +102,22 @@ export default function Home() {
           <h1 className="hero__title">Chasis de<br/><span>Karting</span><br/>Competición</h1>
           <p className="hero__sub">Fabricados en Argentina. Diseñados para ganar en tierra, asfalto y escuela.</p>
           <div className="hero__actions">
-            <Link to="/productos" className="btn btn-primary">Ver Chasis →</Link>
+            <Link to="/productos" className="btn btn-primary">Nuestros Modelos →</Link>
             <a href={`${WA}?text=Hola! Quiero consultar sobre los chasis KTL.`} target="_blank" rel="noopener noreferrer" className="btn btn-outline">WhatsApp</a>
           </div>
           <div className="hero__stats">
-            <AnimatedStat value="3" isNum={false} label="Modelos" />
-            <AnimatedStat value="100" isNum={true} label="Nacional" />
-            <AnimatedStat value="∞" isNum={false} label="Soporte" />
+            <div className="hero__stat">
+              <span>TIERRA</span>
+              <p>Pistas de tierra</p>
+            </div>
+            <div className="hero__stat">
+              <span>ASFALTO</span>
+              <p>Pistas de asfalto</p>
+            </div>
+            <div className="hero__stat">
+              <span>ESCUELA</span>
+              <p>Categoría inicial</p>
+            </div>
           </div>
         </div>
 
