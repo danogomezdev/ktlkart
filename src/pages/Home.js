@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts, getGallery } from '../utils/api';
 import { getGalleryUrl, getMainUrl } from '../utils/imgUtils';
@@ -21,24 +21,6 @@ const FALLBACK_MODELS = [
     specs: [{ k: 'Superficie', v: 'Mixto' }, { k: 'Bancadas', v: '3' }, { k: 'Fabricación', v: 'Nacional' }] },
 ];
 
-function useCountUp(target, duration = 1200) {
-  const [count, setCount] = useState(0);
-  const ref = useRef();
-  const started = useRef(false);
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        const start = performance.now();
-        const tick = (now) => {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setCount(Math.round(eased * target));
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
     }, { threshold: 0.3 });
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -46,15 +28,6 @@ function useCountUp(target, duration = 1200) {
   return [count, ref];
 }
 
-function AnimatedStat({ value, isNum, label }) {
-  const [count, ref] = useCountUp(isNum ? parseInt(value) : 0);
-  return (
-    <div className="hero__stat" ref={ref}>
-      <span>{isNum ? count + '+' : value}</span>
-      <p>{label}</p>
-    </div>
-  );
-}
 
 export default function Home() {
   const [products, setProducts] = useState([]);
