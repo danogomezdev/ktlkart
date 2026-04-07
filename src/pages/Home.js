@@ -21,14 +21,6 @@ const FALLBACK_MODELS = [
     specs: [{ k: 'Superficie', v: 'Mixto' }, { k: 'Bancadas', v: '3' }, { k: 'Fabricación', v: 'Nacional' }] },
 ];
 
-    }, { threshold: 0.3 });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration]);
-  return [count, ref];
-}
-
-
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [gallery, setGallery] = useState([]);
@@ -59,7 +51,7 @@ export default function Home() {
   return (
     <div className="home">
 
-      {/* ══ HERO — Layout B: texto izq, kart der ══ */}
+      {/* ══ HERO ══ */}
       <section className="hero">
         <div className="hero__bg">
           <div className="hero__bg-photo" style={{backgroundImage: `url(${heroBgPhoto})`}} />
@@ -69,7 +61,7 @@ export default function Home() {
           <div className="hero__stripe hero__stripe--2" />
         </div>
 
-        {/* TEXTO IZQUIERDA */}
+        {/* Texto izquierda */}
         <div className="hero__content">
           <div className="hero__label">KTL Racing Kart · Fabricación Nacional</div>
           <h1 className="hero__title">Chasis de<br/><span>Karting</span><br/>Competición</h1>
@@ -94,7 +86,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* KART DERECHA */}
+        {/* Kart derecha */}
         <div className="hero__visual">
           <div className="hero__kart-wrap">
             <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
