@@ -20,7 +20,6 @@ const FALLBACK_MODELS = [
     specs: [{ k: 'Superficie', v: 'Mixto' }, { k: 'Bancadas', v: '3' }, { k: 'Fabricación', v: 'Nacional' }] },
 ];
 
-// Hook — contador animado al entrar en viewport
 function useCountUp(target, duration = 1200) {
   const [count, setCount] = useState(0);
   const ref = useRef();
@@ -46,7 +45,6 @@ function useCountUp(target, duration = 1200) {
   return [count, ref];
 }
 
-// Stat con contador
 function AnimatedStat({ value, isNum, label }) {
   const [count, ref] = useCountUp(isNum ? parseInt(value) : 0);
   return (
@@ -82,13 +80,18 @@ export default function Home() {
     ? gallery.slice(0, 4)
     : [{ url: kart1 }, { url: kart2 }, { url: kart1 }, { url: kart2 }];
 
+  // Foto de fondo del hero — primera de galería o fallback
+  const heroBgPhoto = gallery.length > 0 ? gallery[0].url : kart2;
 
   return (
     <div className="home">
 
-      {/* ══ HERO ══ */}
+      {/* ══ HERO — Opción C: foto borrosa de fondo ══ */}
       <section className="hero">
         <div className="hero__bg">
+          {/* Foto borrosa de fondo */}
+          <div className="hero__bg-photo" style={{backgroundImage: `url(${heroBgPhoto})`}} />
+          <div className="hero__bg-overlay" />
           <div className="hero__bg-logo" />
           <div className="hero__bg-gradient" />
           <div className="hero__stripe" />
@@ -114,7 +117,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ MODELOS — layout asimétrico con número grande ══ */}
+      {/* ══ MODELS ══ */}
       <section className="models-section">
         <div className="models-section__header container">
           <div className="models-section__label">Línea de productos</div>
@@ -123,16 +126,11 @@ export default function Home() {
 
         {models.map((m, i) => (
           <div key={m.id} className={`model-card${i % 2 !== 0 ? ' model-card--rev' : ''}`}>
-            {/* Número grande de fondo */}
             <div className="model-card__num">{m.num}</div>
-
-            {/* Imagen full-bleed */}
             <div className="model-card__img">
               <img src={typeof m.img === 'string' ? m.img : m.img} alt={m.name} loading="lazy" />
               <div className="model-card__img-overlay" />
             </div>
-
-            {/* Glass card flotante */}
             <div className="model-card__body">
               <span className="model-card__cat">{m.cat}</span>
               <h3 className="model-card__name">{m.name}</h3>
@@ -140,8 +138,7 @@ export default function Home() {
               <div className="model-card__specs">
                 {m.specs.map((s, j) => (
                   <div key={j} className="model-card__spec">
-                    <span>{s.k}</span>
-                    <strong>{s.v}</strong>
+                    <span>{s.k}</span><strong>{s.v}</strong>
                   </div>
                 ))}
               </div>
@@ -154,7 +151,7 @@ export default function Home() {
         ))}
       </section>
 
-      {/* ══ FRANJA FABRICACIÓN — rompe monotonía ══ */}
+      {/* ══ TICKER ══ */}
       <div className="fab-strip">
         <div className="fab-strip__track">
           {['ACERO NACIONAL','SOLDADURA TIG','DISEÑO PROPIO','COMPETICIÓN','KARTING ARGENTINO','TIERRA','ASFALTO','ESCUELA',
@@ -166,11 +163,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ══ GALERÍA — mosaic asimétrico ══ */}
+      {/* ══ GALLERY MOSAIC ══ */}
       <section className="gallery-section">
         <div className="gallery-section__header container">
-          <div className="gallery-section__label">Galería</div>
-          <h2 className="gallery-section__title">KTL <span>en pista</span></h2>
+          <div>
+            <div className="gallery-section__label">Galería</div>
+            <h2 className="gallery-section__title">KTL <span>en pista</span></h2>
+          </div>
           <Link to="/galeria" className="gallery-section__link">Ver todo →</Link>
         </div>
         <div className="gallery-mosaic">
