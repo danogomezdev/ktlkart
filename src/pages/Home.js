@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts, getGallery } from '../utils/api';
 import { getGalleryUrl, getMainUrl } from '../utils/imgUtils';
@@ -24,12 +24,18 @@ const FALLBACK_MODELS = [
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [gallery, setGallery] = useState([]);
+  const modelRefs = useRef([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getProducts().then(setProducts).catch(() => {});
     getGallery().then(d => setGallery(d.slice(0, 8))).catch(() => {});
   }, []);
+
+  const scrollToModel = (index) => {
+    const el = modelRefs.current[index];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const models = FALLBACK_MODELS.map((m, i) => {
     const p = products[i];
@@ -65,24 +71,17 @@ export default function Home() {
         <div className="hero__content">
           <div className="hero__label">KTL Racing Kart · Fabricación Nacional</div>
           <h1 className="hero__title">Chasis de<br/><span>Karting</span><br/>Competición</h1>
-          <p className="hero__sub">Fabricados en Argentina. Diseñados para ganar en tierra, asfalto y escuela.</p>
           <div className="hero__actions">
             <Link to="/productos" className="btn btn-primary">Nuestros Modelos →</Link>
-            <a href={`${WA}?text=Hola! Quiero consultar sobre los chasis KTL.`} target="_blank" rel="noopener noreferrer" className="btn btn-outline">WhatsApp</a>
           </div>
+          {/* Stats clickeables que scrollean al modelo */}
           <div className="hero__stats">
-            <div className="hero__stat">
-              <span>TIERRA</span>
-              <p>Pistas de tierra</p>
-            </div>
-            <div className="hero__stat">
-              <span>ASFALTO</span>
-              <p>Pistas de asfalto</p>
-            </div>
-            <div className="hero__stat">
-              <span>ESCUELA</span>
-              <p>Categoría inicial</p>
-            </div>
+            {['TIERRA', 'ASFALTO', 'ESCUELA'].map((cat, i) => (
+              <button key={cat} className="hero__stat hero__stat--btn" onClick={() => scrollToModel(i)}>
+                <span>{cat}</span>
+                <p>{i === 0 ? 'Pistas de tierra' : i === 1 ? 'Pistas de asfalto' : 'Categoría inicial'}</p>
+              </button>
+            ))}
           </div>
         </div>
 
@@ -102,7 +101,11 @@ export default function Home() {
           <h2 className="models-section__title">Nuestros <span>Chasis</span></h2>
         </div>
         {models.map((m, i) => (
-          <div key={m.id} className={`model-card${i % 2 !== 0 ? ' model-card--rev' : ''}`}>
+          <div
+            key={m.id}
+            className={`model-card${i % 2 !== 0 ? ' model-card--rev' : ''}`}
+            ref={el => modelRefs.current[i] = el}
+          >
             <div className="model-card__num">{m.num}</div>
             <div className="model-card__img">
               <img src={typeof m.img === 'string' ? m.img : m.img} alt={m.name} loading="lazy" />
