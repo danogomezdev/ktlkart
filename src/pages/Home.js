@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getProducts, getGallery } from '../utils/api';
 import { getGalleryUrl, getMainUrl } from '../utils/imgUtils';
 import kart1 from '../assets/kart1.jpeg';
+import chasis2 from '../assets/chasis2.png';
 import kart2 from '../assets/kart2.jpeg';
 import './Home.css';
 
@@ -100,7 +101,7 @@ export default function Home() {
         <div className="hero__content">
           <div className="hero__label">KTL Racing Kart · Fabricación Nacional</div>
           <div className="hero__kart-wrap">
-            <img src={kart1} alt="KTL Racing Kart" className="hero__kart-img" />
+            <img src={chasis2} alt="KTL Racing Kart" className="hero__kart-img" />
             <div className="hero__kart-shadow" />
           </div>
           <h1 className="hero__title">Chasis de <span>Karting</span><br/>de Competición</h1>
